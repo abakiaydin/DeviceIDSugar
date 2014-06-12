@@ -1,0 +1,86 @@
+CompilationUnit(
+  [ PackageDec([], PackageName([Id("deviceid")]))
+  , TypeImportDec(TypeName(PackageOrTypeName(Id("deviceid")), Id("Syntax")))
+  , TypeImportDec(TypeName(PackageOrTypeName(Id("deviceid")), Id("DeviceId")))
+  , TypeImportDec(
+      TypeName(
+        PackageOrTypeName(PackageOrTypeName(Id("org")), Id("junit"))
+      , Id("Assert")
+      )
+    )
+  , TypeImportDec(
+      TypeName(
+        PackageOrTypeName(PackageOrTypeName(Id("org")), Id("junit"))
+      , Id("Test")
+      )
+    )
+  , ClassDec(
+      ClassDecHead([Public()], Id("DeviceIdTest"), None(), None(), None())
+    , ClassBody(
+        [ FieldDec(
+            [Private(), Static()]
+          , ClassOrInterfaceType(TypeName(Id("String")), None())
+          , [VarDec(Id("imeiNumber"), Lit(String([Chars("000000000000000")])))]
+          )
+        , MethodDec(
+            MethodDecHead(
+              [MarkerAnno(TypeName(Id("Test"))), Public()]
+            , None()
+            , Void()
+            , Id("test")
+            , []
+            , None()
+            )
+          , Block(
+              [ LocalVarDecStm(
+                  LocalVarDec(
+                    []
+                  , ClassOrInterfaceType(TypeName(Id("DeviceId")), None())
+                  , [ VarDec(
+                        Id("imei")
+                      , NewInstance(
+                          None()
+                        , ClassOrInterfaceType(TypeName(Id("DeviceId")), None())
+                        , [ Lit(String([Chars("model")]))
+                          , Lit(String([Chars("origin")]))
+                          , Lit(String([Chars("cd")]))
+                          ]
+                        , None()
+                        )
+                      )
+                    ]
+                  )
+                )
+              , LocalVarDecStm(
+                  LocalVarDec(
+                    []
+                  , ClassOrInterfaceType(TypeName(Id("String")), None())
+                  , [VarDec(Id("model"), Lit(String([Chars("model")])))]
+                  )
+                )
+              , ExprStm(
+                  Invoke(
+                    Method(MethodName(AmbName(Id("imei")), Id("get")))
+                  , [ Lit(String([Chars("model")]))
+                    , Lit(String([Chars("origin")]))
+                    ]
+                  )
+                )
+              , ExprStm(
+                  ExprStm(
+                    Invoke(
+                      Method(MethodName(AmbName(Id("imei")), Id("get")))
+                    , [ Lit(String([Chars("origin")]))
+                      , Lit(String([Chars("svn")]))
+                      ]
+                    )
+                  )
+                )
+              ]
+            )
+          )
+        ]
+      )
+    )
+  ]
+)

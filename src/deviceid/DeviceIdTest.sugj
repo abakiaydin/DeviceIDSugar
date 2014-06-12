@@ -1,0 +1,23 @@
+package deviceid;
+
+import deviceid.Syntax;
+import deviceid.DeviceId;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+
+public class DeviceIdTest {
+	
+	private static String imeiNumber = "000000000000000";
+	
+	@Test
+	public void test() {
+		
+		String model = "model";
+		
+		resource DeviceId imei {model, origin, cd};
+		
+		imei {origin, svn};
+	}
+}

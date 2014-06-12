@@ -1,0 +1,22 @@
+module deviceid/Syntax
+ imports org/sugarj/java/init/initGrammar concretesyntax/Java
+exports 
+  (/)
+
+context-free syntax
+  "resource" JavaAnno | JavaVarMod* JavaType {JavaVarDec ","}+ ResAccDecs ";" -> ResDec           {cons("ResDec")}
+  ResBlock                                                                    -> ResMethodBody    
+  "{" ResMethodBodyDec* "}"                                                   -> ResBlock         {cons("ResBlock")}
+  ResDec                                                                      -> ResMethodBodyDec 
+  JavaBlockStm                                                                -> ResMethodBodyDec 
+  "{" {ResAccDec ","}+ "}"                                                    -> ResAccDecs       
+  JavaMethodDecHead ResMethodBody                                             -> ResMethodDec     {cons("ResMethodDec")}
+  "model"                                                                     -> ResAccDec        {cons("ResAccModel")}
+  "origin"                                                                    -> ResAccDec        {cons("ResAccOrigin")}
+  "serial_number"                                                             -> ResAccDec        {cons("ResAccSerial")}
+  "svn"                                                                       -> ResAccDec        {cons("ResAccSvn")}
+  "cd"                                                                        -> ResAccDec        {cons("ResAccCd")}
+  JavaId ResAccDecs                                                           -> JavaExpr         {cons("ResExpr")}
+context-free syntax
+  ResMethodDec -> JavaMethodDec 
+  ResExpr      -> JavaInvoke    

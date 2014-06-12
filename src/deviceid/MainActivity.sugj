@@ -1,0 +1,31 @@
+package deviceid;
+
+import deviceid.Syntax;
+import deviceid.DeviceId;
+
+public class MainActivity {
+
+// 	private TextView deviceIdView;
+//     @Override
+//     protected void onCreate(Bundle savedInstanceState) {
+//         super.onCreate(savedInstanceState);
+//         setContentView(R.layout.activity_main);
+//         
+//         deviceIdView = (TextView) findViewById(R.id.device_id);
+// 
+//     }
+    
+	public void getDeviceId() {
+	
+  //       TelephonyManager manager=(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+  //       String deviceId = manager.getDeviceId();
+  
+		resource DeviceId imei {model, origin, cd};
+		
+		imei {origin, svn};
+		// deviceIdView.setText(imei {origin, svn});
+	
+		
+	}
+	
+}

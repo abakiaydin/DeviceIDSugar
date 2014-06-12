@@ -1,0 +1,56 @@
+CompilationUnit(
+  [ PackageDec([], PackageName([Id("deviceid")]))
+  , TypeImportDec(TypeName(PackageOrTypeName(Id("deviceid")), Id("Syntax")))
+  , TypeImportDec(TypeName(PackageOrTypeName(Id("deviceid")), Id("DeviceId")))
+  , TypeImportDec(
+      TypeName(
+        PackageOrTypeName(PackageOrTypeName(Id("org")), Id("junit"))
+      , Id("Assert")
+      )
+    )
+  , TypeImportDec(
+      TypeName(
+        PackageOrTypeName(PackageOrTypeName(Id("org")), Id("junit"))
+      , Id("Test")
+      )
+    )
+  , ClassDec(
+      ClassDecHead([Public()], Id("DeviceIdTest"), None(), None(), None())
+    , ClassBody(
+        [ FieldDec(
+            [Private(), Static()]
+          , ClassOrInterfaceType(TypeName(Id("String")), None())
+          , [VarDec(Id("imeiNumber"), Lit(String([Chars("000000000000000")])))]
+          )
+        , ResMethodDec(
+            MethodDecHead(
+              [MarkerAnno(TypeName(Id("Test"))), Public()]
+            , None()
+            , Void()
+            , Id("test")
+            , []
+            , None()
+            )
+          , ResBlock(
+              [ LocalVarDecStm(
+                  LocalVarDec(
+                    []
+                  , ClassOrInterfaceType(TypeName(Id("String")), None())
+                  , [VarDec(Id("model"), Lit(String([Chars("model")])))]
+                  )
+                )
+              , ResDec(
+                  []
+                , ClassOrInterfaceType(TypeName(Id("DeviceId")), None())
+                , [VarDec(Id("imei"))]
+                , [ResAccModel(), ResAccOrigin(), ResAccCd()]
+                )
+              , ExprStm(ResExpr(Id("imei"), [ResAccOrigin(), ResAccSvn()]))
+              ]
+            )
+          )
+        ]
+      )
+    )
+  ]
+)

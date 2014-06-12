@@ -1,0 +1,65 @@
+package deviceid;
+
+import org.sugarj.languages.Java;
+import concretesyntax.Java;
+
+public sugar Syntax {
+		
+	context-free syntax
+		"resource" (JavaAnno | JavaVarMod)* JavaType {JavaVarDec ","}+ ResAccDecs ";"	-> ResDec				{cons("ResDec")}
+		ResBlock																		-> ResMethodBody			
+		"{" ResMethodBodyDec* "}"														-> ResBlock				{cons("ResBlock")}
+		ResDec																	    	-> ResMethodBodyDec
+		JavaBlockStm																	-> ResMethodBodyDec
+		"{" {ResAccDec ","}+ "}"														-> ResAccDecs
+		JavaMethodDecHead ResMethodBody													-> ResMethodDec			{cons("ResMethodDec")}
+		
+		"model"																			-> ResAccDec			{cons("ResAccModel")}
+		"origin"																		-> ResAccDec			{cons("ResAccOrigin")}
+		"serial_number"																	-> ResAccDec			{cons("ResAccSerial")}
+		"svn"																			-> ResAccDec			{cons("ResAccSvn")}
+		"cd"																			-> ResAccDec			{cons("ResAccCd")}
+		
+		JavaId ResAccDecs 																-> JavaExpr			{cons("ResExpr")}
+	
+	desugarings
+		resAcc : ResMethodDec	->	JavaMethodDec		
+		resEStm: ResExpr	-> JavaInvoke		
+
+	rules
+		resFields : ResAccModel() -> Lit(String([Chars("model")]))
+		resFields : ResAccOrigin() -> Lit(String([Chars("origin")]))
+		resFields : ResAccSerial() -> Lit(String([Chars("serialNumber")]))
+		resFields : ResAccSvn() -> Lit(String([Chars("svn")]))
+		resFields : ResAccCd() -> Lit(String([Chars("cd")]))
+	
+	 strategies
+	 	resFieldToString = map(resFields)
+	
+	rules
+		resAcc : ResMethodDec(MethodDecHead(mods, a, b, Id(methodname), d, e), ResBlock(f))	
+					->	MethodDec(MethodDecHead(mods, a, b, Id(methodname), d, e), Block(<concat> [<genLocalVarDecs> f, <removeResDecs> f]))	
+		resEStm: ResExpr(a, b)
+					->  Invoke(Method(MethodName(AmbName(a), Id("get"))), <resFieldToString> b)
+		 
+	strategies
+		// get resource declarations
+		filterResDecs = filter(?ResDec(_,_,_,_))
+		// get other declarations
+		removeResDecs = remove-all(?ResDec(_,_,_,_))
+	 	
+		localVarTriples = ?ResDec(mods, type, vars, allow_list); !vars; map(\VarDec(Id(name)) -> (mods, type, name, <resFieldToString> allow_list)\)
+		genLocalVarDecs = filterResDecs; mapconcat(localVarTriples); map(localVar)
+		
+	rules
+		localVar : (mods, type, name, allow_list) -> LocalVarDecStm(
+								LocalVarDec(
+									mods, 
+									type, 
+									[VarDec(
+										Id(name), 
+										NewInstance(None(), type, allow_list, None())
+									)]
+                        ))
+		
+}
